@@ -32,5 +32,5 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         push: true
-        tags: ${{ secrets.REGISTRY_LOGIN_SERVER }}/sample:${{ github.sha }}
+        tags: ${{ secrets.REGISTRY_LOGIN_SERVER }}/latest:${{ github.sha }}
         file: frontend/Dockerfile
