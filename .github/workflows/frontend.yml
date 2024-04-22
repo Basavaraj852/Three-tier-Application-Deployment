@@ -1,39 +1,25 @@
-name: CI
-
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+on: [push]
+name: Linux_Container_Workflow
 
 jobs:
-  frontend:
-    runs-on: ubuntu-latest
-    if: "contains(github.event.head_commit.modified, 'frontend/')"
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    build-and-deploy:
+        runs-on: ubuntu-latest
+        steps:
+        # checkout the repo
+        - name: 'Checkout GitHub Action'
+          uses: actions/checkout@main
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
+        - name: 'Login via Azure CLI'
+          uses: azure/login@v1
+          with:
+            creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run frontend tests
-        run: npm test
-
-      - name: Azure login
-        uses: Azure/docker-login@v1
-        with:
-         login-server: dockerimages1234.azurecr.io
-         username: ${{ secrets.ACR_USERNAME }}
-         password: ${{ secrets.ACR_PASSWORD }}
-    
-      - run: |
-         docker build . -t dockerimages1234.azurecr.io/frontend:${{ github.sha }}
-         docker push dockerimages1234.azurecr.io/frontend:${{ github.sha }}
+        - name: 'Build and push image'
+          uses: docker/login-action@v3
+          with:
+            registry: dockerimages1234.azurecr.io
+            username: ${{ secrets.ACR_USERNAM }}
+            password: ${{ secrets.ACR_PASSWORD }}
+        - run: |
+            docker build . -t ${{ secrets.dockerimages1234 }}/sampleapp:${{ github.sha }}
+            docker push ${{ secrets.dockerimages1234 }}/sampleapp:${{ github.sha }}
