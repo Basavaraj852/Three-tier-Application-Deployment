@@ -18,7 +18,7 @@ jobs:
         uses: Azure/docker-login@v1 
         with:
         # Container registry server url
-        login-server: eastcanadadevtestacr.azurecr.io
+        login-server: bdfhldjd.azurecr.io
         # Container registry username
         username: ${{ secrets.ACR_USERNAME }}
         # Container registry password
@@ -26,5 +26,5 @@ jobs:
     
     - name: Build and Push the Docker image
       run:  | 
-       docker build ./SampleWebApplication -t eastcanadadevtestacr.azurecr.io/samplewebapp:${{ github.run_id }}
-       docker push eastcanadadevtestacr.azurecr.io/samplewebapp:${{ github.run_id }} 
+       docker build ./frontend -t bdfhldjd.azurecr.io/samplewebapp:${{ github.run_id }}
+       docker push bdfhldjd.azurecr.io/samplewebapp:${{ github.run_id }} 
