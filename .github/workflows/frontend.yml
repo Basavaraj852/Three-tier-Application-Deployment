@@ -35,5 +35,5 @@ jobs:
          password: ${{ secrets.ACR_PASSWORD }}
     
       - run: |
-         docker build . -t dockerimages1234.azurecr.io/k8sflask:${{ github.sha }}
-         docker push dockerimages1234.azurecr.io/k8sflask:${{ github.sha }}
+         docker build . -t dockerimages1234.azurecr.io/frontend:${{ github.sha }}
+         docker push dockerimages1234.azurecr.io/frontend:${{ github.sha }}
