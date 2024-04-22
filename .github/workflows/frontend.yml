@@ -26,4 +26,14 @@ jobs:
 
       - name: Run frontend tests
         run: npm test
- 
+
+      - name: Azure login
+        uses: Azure/docker-login@v1
+        with:
+         login-server: dockerimages1234.azurecr.io
+         username: ${{ secrets.ACR_USERNAME }}
+         password: ${{ secrets.ACR_PASSWORD }}
+    
+      - run: |
+         docker build . -t dockerimages1234.azurecr.io/k8sflask:${{ github.sha }}
+         docker push dockerimages1234.azurecr.io/k8sflask:${{ github.sha }}
